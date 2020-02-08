@@ -14,9 +14,10 @@ class Game:
         pg.key.set_repeat(500, 100)
         self.map()
 
-    def map(self):  # load_data function
+    def map(self):
+    # load_data function
         game_folder = path.dirname(__file__)
-        self.map = Map(path.join(game_folder, 'map.txt'))
+        self.map = Map(path.join(game_folder, 'map2.txt'))
 
     # create all variables
     def new(self):
@@ -31,6 +32,8 @@ class Game:
                 if tile == 'P':
                     self.player = Player(self, col, row)
                 # créer le joueur si tu trouves  P
+        self.camera = Camera(self.map.width, self.map.height)
+        #spawn camera
 
         #for x in range(10, 20):
         #    Wall(self, x, 5)
@@ -49,8 +52,10 @@ class Game:
         sys.exit()
 
     def update(self):
-    # update portion of the game loop
+    # update function
         self.all_sprites.update()
+        self.camera.updat(self.player)
+        #update camera
 
     def draw_grid(self):
     #dessiner le grid
@@ -62,7 +67,8 @@ class Game:
     def draw(self):
         self.screen.fill(BGCOLOR)
         self.draw_grid()
-        self.all_sprites.draw(self.screen)
+        for sprite in self.all_sprites:
+            self.screen.blit(sprite.image, self.camera.apply(sprite))
         pg.display.flip()
 
     def events(self):

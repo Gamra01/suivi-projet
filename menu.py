@@ -5,6 +5,7 @@ import random
 pygame.init()
 
 screen = pygame.display.set_mode((800, 600))
+pygame.display.set_caption("Welcome to the game")
 clock = pygame.time.Clock()
 
 BLACK = (0, 0, 0)
@@ -15,6 +16,7 @@ BTN_HOVER = (50, 70, 90)
 # font déclaration
 FONT = pygame.font.SysFont ("Times New Norman", 60)
 # Buttons déclaration
+
 
 text1 = FONT.render("START", True, WHITE)
 text2 = FONT.render("SETTINGS", True, WHITE)
@@ -29,6 +31,8 @@ buttons = [
     [text2, rect2, BLACK],
     [text3, rect3, BLACK]
 ]
+
+
 
 def jeu_intro():
     while True:
@@ -48,8 +52,9 @@ def jeu_intro():
 
         #Dessiner les buttons avec les couleurs
         for text, rect, color in buttons:
+            text_rect = text.get_rect(center=(800/2, 600/2))
             pygame.draw.rect(screen, color, rect)
-            screen.blit(text, rect)
+            screen.blit(text, rect,)
 
         pygame.display.flip()
         clock.tick(15)
