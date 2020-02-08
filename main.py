@@ -20,22 +20,23 @@ class Game:
 
     # create all variables
     def new(self):
-        # initialize all variables and do all the setup for a new game
+    # initialize all variables and do all the setup for a new game
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()  # créer les obstacles
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 if tile == '1':
+                # céer un obstacle si tu trouves 1
                     Wall(self, col, row)
                 if tile == 'P':
                     self.player = Player(self, col, row)
-                    # créer le joueur
+                # créer le joueur si tu trouves  P
 
         #for x in range(10, 20):
         #    Wall(self, x, 5)
 
     def run(self):
-        # game loop - set self.playing = False to end the game
+    # game loop - set self.playing = False to end the game
         self.playing = True
         while self.playing:
             self.dt = self.clock.tick(FPS) / 1000
@@ -48,10 +49,11 @@ class Game:
         sys.exit()
 
     def update(self):
-        # update portion of the game loop
+    # update portion of the game loop
         self.all_sprites.update()
 
     def draw_grid(self):
+    #dessiner le grid
         for x in range(0, WIDTH, TILESIZE):
             pg.draw.line(self.screen, LIGHTGREY, (x, 0), (x, HEIGHT))
         for y in range(0, HEIGHT, TILESIZE):

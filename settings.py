@@ -7,6 +7,8 @@ LIGHTGREY = (100, 100, 100)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
+bright_red = (255,0,0)
+bright_green = (0,255,0)
 
 #pygame settings
 
@@ -14,7 +16,7 @@ WIDTH = 1024
 HEIGHT = 768
 FPS = 60
 
-TITLE = "b1 info"
+TITLE = "Project "
 BGCOLOR = DARKGREY
 
 TILESIZE = 32
