@@ -17,7 +17,10 @@ class Game:
     def map(self):
     # load_data function
         game_folder = path.dirname(__file__)
+        img_folder = path.join(game_folder, 'img')
+        # dossier ou se trouve les images
         self.map = Map(path.join(game_folder, 'map2.txt'))
+        self.player_img = pg.image.load(path.join(img_folder, PLAYER_IMG)).convert_alpha()
 
     # create all variables
     def new(self):
@@ -54,7 +57,7 @@ class Game:
     def update(self):
     # update function
         self.all_sprites.update()
-        self.camera.updat(self.player)
+        self.camera.updat(self.player) # track player sprite
         #update camera
 
     def draw_grid(self):
