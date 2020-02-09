@@ -27,4 +27,6 @@ GRIDHEIGHT = HEIGHT / TILESIZE
 # joueur settings
 
 PLAYER_SPEED = 500
+PLAYER_ROT_SPEED = 250
+#rotation speed du joueur
 PLAYER_IMG = 'spaceAstronauts.png'

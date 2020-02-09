@@ -12,6 +12,7 @@ class Player(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.vel = vec(0, 0)
         self.pos = vec(x, y) * TILESIZE
+        self.rot = 0
         # self.vx, self.vy = 0, 0
         # self.x = x * TILESIZE
         # # X * & Y * TILESIZE TO SPAWN BY TILE
@@ -19,18 +20,19 @@ class Player(pg.sprite.Sprite):
 
     def get_keys(self):
     # get_keys function
+        self.rot_speed = 0
         self.vel = vec(0, 0)
         keys = pg.key.get_pressed()
         if keys[pg.K_LEFT] or keys[pg.K_a]:
-            self.vel.x = -PLAYER_SPEED
+            self.rot_speed = PLAYER_ROT_SPEED
         if keys[pg.K_RIGHT] or keys[pg.K_d]:
-            self.vel.x = PLAYER_SPEED
+            self.rot_speed = -PLAYER_ROT_SPEED
         if keys[pg.K_UP] or keys[pg.K_w]:
-            self.vel.y = -PLAYER_SPEED
+            self.vel = vec(PLAYER_SPEED, 0).rotate(-self.rot)
         if keys[pg.K_DOWN] or keys[pg.K_s]:
-            self.vel.y = PLAYER_SPEED
-        if self.vel.x != 0 and self.vel.y != 0:
-            self.vel *= 0.7071
+            self.vel = vec(-PLAYER_SPEED / 2, 0).rotate(-self.rot)
+        # if self.vel.x != 0 and self.vel.y != 0:
+        #     self.vel *= 0.7071
 
     # def move(self, dx=0, dy=0):
     #     # defines which square i want to move in to
@@ -70,6 +72,10 @@ class Player(pg.sprite.Sprite):
 
     def update(self):
         self.get_keys()
+        self.rot = (self.rot + self.rot_speed * self.game.dt) % 360
+        # rotation 360
+        self.image = pg.transform.rotate(self.game.player_img, self.rot)
+        # image roatation
         self.pos += self.vel * self.game.dt
         self.rect.x = self.pos.x
         self.collide_with_walls('x')
