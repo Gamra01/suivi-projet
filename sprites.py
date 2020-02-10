@@ -1,5 +1,6 @@
 import pygame as pg
 from settings import *
+from map import collide_hit_rect
 vec = pg.math.Vector2
 
 # class joueur
@@ -10,6 +11,8 @@ class Player(pg.sprite.Sprite):
         self.game = game
         self.image = game.player_img
         self.rect = self.image.get_rect()
+        self.hit_rect = PLAYER_HIT_RECT
+        self.hit_rect.center = self.rect.center
         self.vel = vec(0, 0)
         self.pos = vec(x, y) * TILESIZE
         self.rot = 0
@@ -44,23 +47,24 @@ class Player(pg.sprite.Sprite):
 
     def collide_with_walls(self, dir):
         if dir == 'x':
-            hits = pg.sprite.spritecollide(self, self.game.walls, False)
+            hits = pg.sprite.spritecollide(self, self.game.walls, False, collide_hit_rect)
+            # use collide hit rect to compare player rectangle with the wall
             if hits:
                 if self.vel.x > 0:
-                    self.pos.x = hits[0].rect.left - self.rect.width
+                    self.pos.x = hits[0].rect.left - self.hit_rect.width / 2
                 if self.vel.x < 0:
-                    self.pos.x = hits[0].rect.right
+                    self.pos.x = hits[0].rect.right + self.hit_rect.width / 2
                 self.vel.x = 0
-                self.rect.x = self.pos.x
+                self.hit_rect.centerx = self.pos.x
         if dir == 'y':
-            hits = pg.sprite.spritecollide(self, self.game.walls, False)
+            hits = pg.sprite.spritecollide(self, self.game.walls, False, collide_hit_rect)
             if hits:
                 if self.vel.y > 0:
-                    self.pos.y = hits[0].rect.top - self.rect.height
+                    self.pos.y = hits[0].rect.top - self.hit_rect.height / 2
                 if self.vel.y < 0:
-                    self.pos.y = hits[0].rect.bottom
+                    self.pos.y = hits[0].rect.bottom + self.hit_rect.height / 2
                 self.vel.y = 0
-                self.rect.y = self.pos.y
+                self.hit_rect.centery = self.pos.y
 
 
 
@@ -76,11 +80,15 @@ class Player(pg.sprite.Sprite):
         # rotation 360
         self.image = pg.transform.rotate(self.game.player_img, self.rot)
         # image roatation
+        self.rect = self.image.get_rect()
+        self.rect.center = self.pos
         self.pos += self.vel * self.game.dt
-        self.rect.x = self.pos.x
+        self.hit_rect.centerx = self.pos.x
+        # center that use the position not the corner
         self.collide_with_walls('x')
-        self.rect.y = self.pos.y
+        self.hit_rect.centery = self.pos.y
         self.collide_with_walls('y')
+        self.rect.center = self.hit_rect.center
 
         # if pg.sprite.spritecollideany(self, self.game.walls):
         # #if the sprite self hit anything in groupe game.walls

@@ -1,4 +1,4 @@
-
+import pygame as pg
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -30,3 +30,4 @@ PLAYER_SPEED = 500
 PLAYER_ROT_SPEED = 250
 #rotation speed du joueur
 PLAYER_IMG = 'spaceAstronauts.png'
+PLAYER_HIT_RECT = pg.Rect(0, 0, 35, 35)

@@ -1,12 +1,16 @@
 import pygame as pg
 from settings import *
 
+def collide_hit_rect(one, two):
+    return one.hit_rect.colliderect(two.rect)
+    # compare the player hit rect vs the wall
+    
 class Map:
     def __init__(self, filename):
         self.data = []
         with open(filename, 'rt') as f:
             for line in f:
-                self.data.append(line.strip()) # strip every additional line 
+                self.data.append(line.strip()) # strip every additional line
 
         self.tilewidth = len(self.data[0])
         self.tileheight = len(self.data)
@@ -23,8 +27,9 @@ class Camera:
         return entity.rect.move(self.camera.topleft)
 
     def updat(self, target):
-        x = -target.rect.x + int(WIDTH / 2)
-        y = -target.rect.y + int(HEIGHT / 2)
+        x = -target.rect.centerx + int(WIDTH / 2)
+        #use center not corner
+        y = -target.rect.centery + int(HEIGHT / 2)
         # limit map scrolling
         x = min(0, x) # limit map scrolling à gauche
         y = min(0, y) # limit map scrolling top
