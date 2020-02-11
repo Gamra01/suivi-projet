@@ -1,4 +1,5 @@
 import pygame as pg
+from random import uniform
 from settings import *
 from map import collide_hit_rect
 
@@ -64,7 +65,7 @@ class Player(pg.sprite.Sprite):
                 dir = vec(1, 0).rotate(-self.rot)
                 pos = self.pos + BARREL_OFFSET.rotate(-self.rot)
                 Bullet(self.game, pos, dir)
-                # kick joueur derrière a chaque tire 
+                # kick joueur derrière a chaque tire
                 self.vel = vec(-KICK, 0).rotate(-self.rot)
         # if self.vel.x != 0 and self.vel.y != 0:
         #     self.vel *= 0.7071
@@ -133,7 +134,9 @@ class Bullet(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.pos = vec(pos)
         self.rect.center = pos
-        self.vel = dir * BULLET_SPEED
+        spray = uniform(-GUN_SPRAY, GUN_SPRAY)
+        self.vel = dir.rotate(spray) * BULLET_SPEED
+        # rotate bullets left and right 
         self.spawn_time = pg.time.get_ticks()
 
     def update(self):

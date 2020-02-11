@@ -69,6 +69,10 @@ class Game:
         self.all_sprites.update()
         self.camera.updat(self.player) # track player sprite
         #update camera
+        hits = pg.sprite.groupcollide(self.mobs, self.bullets, False, True)
+        #bullets hit mobs
+        for hit in hits:
+            hit.kill()
 
     def draw_grid(self):
     #dessiner le grid

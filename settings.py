@@ -43,6 +43,7 @@ BULLET_SPEED = 700
 BULLET_LIFETIME = 1000
 BULLET_RATE = 150
 KICK = 200
+GUN_SPRAY = 5
 
 #Mobs settings
 MOB_IMG = 'spaceAstronauts_005.png'
