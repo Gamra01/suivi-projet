@@ -29,18 +29,20 @@ GRIDHEIGHT = HEIGHT / TILESIZE
 WALL_IMG = 'towerSquare_sampleD.png'
 
 # joueur settings
-PLAYER_SPEED = 500
+PLAYER_SPEED = 400
 PLAYER_ROT_SPEED = 250
 #rotation speed du joueur
-PLAYER_IMG = 'spaceAstronauts.png'
+PLAYER_IMG = 'manOld_gun.png'
 PLAYER_HIT_RECT = pg.Rect(0, 0, 35, 35)
-BARREL_OFFSET = vec(20, 20)
+BARREL_OFFSET = vec(30, 10)
+#positionement bullet
 
 # GUNS
 BULLET_IMG = 'balle.png'
 BULLET_SPEED = 700
 BULLET_LIFETIME = 1000
 BULLET_RATE = 150
+KICK = 200
 
 #Mobs settings
 MOB_IMG = 'spaceAstronauts_005.png'

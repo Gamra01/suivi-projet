@@ -62,7 +62,9 @@ class Player(pg.sprite.Sprite):
             if now - self.last_shot > BULLET_RATE:
                 self.last_shot = now
                 dir = vec(1, 0).rotate(-self.rot)
-                Bullet(self.game, self.pos, dir)
+                pos = self.pos + BARREL_OFFSET.rotate(-self.rot)
+                Bullet(self.game, pos, dir)
+                self.vel = vec(-KICK, 0).rotate(-self.rot)
         # if self.vel.x != 0 and self.vel.y != 0:
         #     self.vel *= 0.7071
 
