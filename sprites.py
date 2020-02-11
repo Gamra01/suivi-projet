@@ -4,6 +4,27 @@ from map import collide_hit_rect
 
 vec = pg.math.Vector2
 
+def collide_with_walls(sprite, group, dir):
+    if dir == 'x':
+        hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
+        # use collide hit rect to compare player rectangle with the wall
+        if hits:
+            if sprite.vel.x > 0:
+                sprite.pos.x = hits[0].rect.left - sprite.hit_rect.width / 2
+            if sprite.vel.x < 0:
+                sprite.pos.x = hits[0].rect.right + sprite.hit_rect.width / 2
+            sprite.vel.x = 0
+            sprite.hit_rect.centerx = sprite.pos.x
+    if dir == 'y':
+        hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
+        if hits:
+            if sprite.vel.y > 0:
+                sprite.pos.y = hits[0].rect.top - sprite.hit_rect.height / 2
+            if sprite.vel.y < 0:
+                sprite.pos.y = hits[0].rect.bottom + sprite.hit_rect.height / 2
+            sprite.vel.y = 0
+            sprite.hit_rect.centery = sprite.pos.y
+
 # class joueur
 class Player(pg.sprite.Sprite):
     def __init__(self, game, x, y):
@@ -38,43 +59,6 @@ class Player(pg.sprite.Sprite):
         # if self.vel.x != 0 and self.vel.y != 0:
         #     self.vel *= 0.7071
 
-    # def move(self, dx=0, dy=0):
-    #     # defines which square i want to move in to
-    #     if not self.collide_with_walls(dx, dy):
-    #         self.x += dx
-    #         self.y += dy
-
-
-
-    def collide_with_walls(self, dir):
-        if dir == 'x':
-            hits = pg.sprite.spritecollide(self, self.game.walls, False, collide_hit_rect)
-            # use collide hit rect to compare player rectangle with the wall
-            if hits:
-                if self.vel.x > 0:
-                    self.pos.x = hits[0].rect.left - self.hit_rect.width / 2
-                if self.vel.x < 0:
-                    self.pos.x = hits[0].rect.right + self.hit_rect.width / 2
-                self.vel.x = 0
-                self.hit_rect.centerx = self.pos.x
-        if dir == 'y':
-            hits = pg.sprite.spritecollide(self, self.game.walls, False, collide_hit_rect)
-            if hits:
-                if self.vel.y > 0:
-                    self.pos.y = hits[0].rect.top - self.hit_rect.height / 2
-                if self.vel.y < 0:
-                    self.pos.y = hits[0].rect.bottom + self.hit_rect.height / 2
-                self.vel.y = 0
-                self.hit_rect.centery = self.pos.y
-
-
-
-        # #dont go through walls , arreter le joueur a chaque obstacle
-        # for wall in self.game.walls:
-        #     if wall.x == self.x + dx and wall.y == self.y + dy:
-        #         return True
-        # return False
-
     def update(self):
         self.get_keys()
         self.rot = (self.rot + self.rot_speed * self.game.dt) % 360
@@ -86,9 +70,9 @@ class Player(pg.sprite.Sprite):
         self.pos += self.vel * self.game.dt
         self.hit_rect.centerx = self.pos.x
         # center that use the position not the corner
-        self.collide_with_walls('x')
+        collide_with_walls(self, self.game.walls, 'x')
         self.hit_rect.centery = self.pos.y
-        self.collide_with_walls('y')
+        collide_with_walls(self, self.game.walls, 'y')
         self.rect.center = self.hit_rect.center
 
         # if pg.sprite.spritecollideany(self, self.game.walls):
@@ -106,6 +90,8 @@ class Mob(pg.sprite.Sprite):
         self.game = game
         self.image = game.mob_img
         self.rect = self.image.get_rect()
+        self.hit_rect = MOB_HIT_RECT.copy()
+        self.hit_rect.center = self.rect.center
         self.pos = vec(x, y) * TILESIZE
         #position de mob
         self.vel = vec(0, 0)
@@ -118,7 +104,16 @@ class Mob(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = self.pos
         self.acc = vec(MOB_SPEED, 0).rotate(-self.rot)
+        self.acc += self.vel * -1
+        self.vel += self.acc * self.game.dt
+        self.pos += self.vel * self.game.dt + 0.5 * self.acc * self.game.dt **2
+        self.hit_rect.centerx = self.pos.x
         # acceleartion du monster
+        collide_with_walls(self, self.game.walls, 'x')
+        self.hit_rect.centery = self.pos.y
+        collide_with_walls(self, self.game.walls, 'y')
+        self.rect.center = self.hit_rect.center
+
 class Wall(pg.sprite.Sprite):
 # class obstacle
     def __init__(self, game, x, y):
