@@ -5,6 +5,25 @@ from settings import *
 from sprites import *
 from map import *
 
+
+# health functions
+def draw_player_health(surf, x, y, pct): # pct = health percentage
+    if pct < 0 :
+        pct = 0
+    BAR_LENGTH = 100
+    BAR_HEIGHT = 20
+    fill = pct * BAR_LENGTH
+    outline_rect = pg.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
+    fill_rect = pg.Rect(x, y, fill, BAR_HEIGHT)
+    if pct > 0.6:
+        col = GREEN
+    elif pct > 0.3 :
+        col = YELLOW
+    else:
+        col = RED
+    pg.draw.rect(surf, col, fill_rect)
+    pg.draw.rect(surf, WHITE, outline_rect, 2)
+
 class Game:
     def __init__(self):
         pg.init()
@@ -69,8 +88,16 @@ class Game:
         self.all_sprites.update()
         self.camera.updat(self.player) # track player sprite
         #update camera
+        hits = pg.sprite.spritecollide(self.player, self.mobs, False, collide_hit_rect)
+        for hit in hits:
+            self.player.health -= MOB_DMG
+            hit.vel = vec(0, 0)
+            if self.player.health <= 0:
+                self.playing = False
+        if hits:
+            self.player.pos += vec(MOB_KB, 0).rotate(-hits[0].rot)
         hits = pg.sprite.groupcollide(self.mobs, self.bullets, False, True)
-        #bullets hit mobs
+        #bullets hit  the mobs
         for hit in hits:
             hit.health -= BULLET_DMG
             hit.vel = vec(0, 0 )
@@ -87,8 +114,12 @@ class Game:
         self.screen.fill(BGCOLOR)
         # self.draw_grid()
         for sprite in self.all_sprites:
+            if isinstance(sprite, Mob):
+                sprite.draw_health()
             self.screen.blit(sprite.image, self.camera.apply(sprite))
         # pg.draw.rect(self.screen, WHITE, self.player.hit_rect, 2)
+        #Health function
+        draw_player_health(self.screen, 10, 15, self.player.health / PLAYER_HEALTH)
         pg.display.flip()
 
     def events(self):
