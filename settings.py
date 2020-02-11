@@ -36,3 +36,4 @@ PLAYER_HIT_RECT = pg.Rect(0, 0, 35, 35)
 
 #Mobs settings
 MOB_IMG = 'spaceAstronauts_005.png'
+MOB_SPEED = 250
