@@ -1,6 +1,7 @@
 import pygame as pg
 from settings import *
 from map import collide_hit_rect
+
 vec = pg.math.Vector2
 
 # class joueur
@@ -97,6 +98,15 @@ class Player(pg.sprite.Sprite):
         #     self.rect.x = (self.x, self.y)
         # self.rect.x = self.x * TILESIZE
         # self.rect.y = self.y * TILESIZE
+class Mob(pg.sprite.Sprite):
+# class Mob
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites, game.mobs
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.image = game.mob_img
+        self.rect = self.image.get_rect()
+        self.pos = vec(x, y) * TILESIZE
+        self.rect.center = self.pos
 
 class Wall(pg.sprite.Sprite):
 # class obstacle
