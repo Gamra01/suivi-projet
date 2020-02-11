@@ -108,6 +108,7 @@ class Mob(pg.sprite.Sprite):
         self.vel = vec(0, 0)
         self.rect.center = self.pos
         self.rot = 0
+        self.health = MOB_HP
 
     def update(self):
         self.rot = (self.game.player.pos - self.pos).angle_to(vec(1, 0))
@@ -124,6 +125,21 @@ class Mob(pg.sprite.Sprite):
         self.hit_rect.centery = self.pos.y
         collide_with_walls(self, self.game.walls, 'y')
         self.rect.center = self.hit_rect.center
+        if self.health <= 0 :
+            self.kill()
+
+    def draw_health(self):
+        if self.health > 60:
+            col = GREEN
+        elif self.health < 30:
+            col = YELLOW
+        else:
+            col = RED
+        width = int(self.rect.width * self.health / MOB_HP)
+        self.health_bar = pg.Rect(0, 0, width, 7)
+        if self.health < MOB_HP:
+            pg.draw.rect(self.image, col, self.health_bar)
+
 
 class Bullet(pg.sprite.Sprite):
     def __init__(self, game, pos, dir):
@@ -136,7 +152,7 @@ class Bullet(pg.sprite.Sprite):
         self.rect.center = pos
         spray = uniform(-GUN_SPRAY, GUN_SPRAY)
         self.vel = dir.rotate(spray) * BULLET_SPEED
-        # rotate bullets left and right 
+        # rotate bullets left and right
         self.spawn_time = pg.time.get_ticks()
 
     def update(self):

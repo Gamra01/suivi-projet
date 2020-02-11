@@ -44,8 +44,10 @@ BULLET_LIFETIME = 1000
 BULLET_RATE = 150
 KICK = 200
 GUN_SPRAY = 5
+BULLET_DMG = 10
 
 #Mobs settings
 MOB_IMG = 'spaceAstronauts_005.png'
 MOB_SPEED = 250
 MOB_HIT_RECT = pg.Rect(0, 0, 30, 30)
+MOB_HP = 100

@@ -72,7 +72,8 @@ class Game:
         hits = pg.sprite.groupcollide(self.mobs, self.bullets, False, True)
         #bullets hit mobs
         for hit in hits:
-            hit.kill()
+            hit.health -= BULLET_DMG
+            hit.vel = vec(0, 0 )
 
     def draw_grid(self):
     #dessiner le grid
