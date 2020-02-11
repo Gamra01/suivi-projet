@@ -21,7 +21,8 @@ class Game:
         # dossier ou se trouve les images
         self.map = Map(path.join(game_folder, 'map.txt'))
         self.player_img = pg.image.load(path.join(img_folder, PLAYER_IMG)).convert_alpha()
-
+        self.wall_img = pg.image.load(path.join(img_folder, WALL_IMG)).convert_alpha()
+        # self.wall_img = pg.transform.scale(WALL_IMG, (80, 80))
     # create all variables
     def new(self):
     # initialize all variables and do all the setup for a new game
@@ -68,6 +69,7 @@ class Game:
             pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
 
     def draw(self):
+        pg.display.set_caption("{:.2f}".format(self.clock.get_fps()))
         self.screen.fill(BGCOLOR)
         self.draw_grid()
         for sprite in self.all_sprites:

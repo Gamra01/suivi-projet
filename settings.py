@@ -24,6 +24,7 @@ GRIDWIDTH = WIDTH / TILESIZE
 GRIDHEIGHT = HEIGHT / TILESIZE
 
 
+WALL_IMG = 'towerSquare_sampleD.png'
 # joueur settings
 
 PLAYER_SPEED = 500
