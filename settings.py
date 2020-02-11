@@ -1,4 +1,5 @@
 import pygame as pg
+vec = pg.math.Vector2
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -33,6 +34,13 @@ PLAYER_ROT_SPEED = 250
 #rotation speed du joueur
 PLAYER_IMG = 'spaceAstronauts.png'
 PLAYER_HIT_RECT = pg.Rect(0, 0, 35, 35)
+BARREL_OFFSET = vec(20, 20)
+
+# GUNS
+BULLET_IMG = 'balle.png'
+BULLET_SPEED = 700
+BULLET_LIFETIME = 1000
+BULLET_RATE = 150
 
 #Mobs settings
 MOB_IMG = 'spaceAstronauts_005.png'
