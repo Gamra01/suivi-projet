@@ -64,6 +64,7 @@ class Player(pg.sprite.Sprite):
                 dir = vec(1, 0).rotate(-self.rot)
                 pos = self.pos + BARREL_OFFSET.rotate(-self.rot)
                 Bullet(self.game, pos, dir)
+                # kick joueur derrière a chaque tire 
                 self.vel = vec(-KICK, 0).rotate(-self.rot)
         # if self.vel.x != 0 and self.vel.y != 0:
         #     self.vel *= 0.7071
