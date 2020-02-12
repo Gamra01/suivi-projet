@@ -37,8 +37,11 @@ class Game:
     # load_data function
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, 'img')
+        map_folder = path.join(game_folder, 'map')
         # dossier ou se trouve les images
-        self.map = Map(path.join(game_folder, 'map.txt'))
+        self.map = TiledMap(path.join(map_folder, 'test.tmx'))
+        self.map_img = self.map.make_map()
+        self.map_rect = self.map_img.get_rect()
         self.player_img = pg.image.load(path.join(img_folder, PLAYER_IMG)).convert_alpha()
         self.mob_img = pg.image.load(path.join(img_folder, MOB_IMG)).convert_alpha()
         self.bullet_img = pg.image.load(path.join(img_folder, BULLET_IMG)).convert_alpha()
@@ -53,17 +56,18 @@ class Game:
         self.walls = pg.sprite.Group()  # créer les obstacles
         self.mobs = pg.sprite.Group()
         self.bullets = pg.sprite.Group()
-        for row, tiles in enumerate(self.map.data):
-            for col, tile in enumerate(tiles):
-                if tile == '1':
-                # céer un obstacle si tu trouves 1
-                    Wall(self, col, row)
-                if tile == 'M':
-                # céer un monster si tu trouves 1
-                    Mob(self, col, row)
-                if tile == 'P':
-                    self.player = Player(self, col, row)
+        # for row, tiles in enumerate(self.map.data):
+        #     for col, tile in enumerate(tiles):
+        #         if tile == '1':
+        #         # céer un obstacle si tu trouves 1
+        #             Wall(self, col, row)
+        #         if tile == 'M':
+        #         # céer un monster si tu trouves 1
+        #             Mob(self, col, row)
+        #         if tile == 'P':
+        #             self.player = Player(self, col, row)
                 # créer le joueur si tu trouves  P
+        self.player = Player(self, 5, 5)
         self.camera = Camera(self.map.width, self.map.height)
         #spawn camera
 
@@ -111,7 +115,8 @@ class Game:
 
     def draw(self):
         pg.display.set_caption("{:.2f}".format(self.clock.get_fps()))
-        self.screen.fill(BGCOLOR)
+        # self.screen.fill(BGCOLOR)
+        self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
         # self.draw_grid()
         for sprite in self.all_sprites:
             if isinstance(sprite, Mob):
