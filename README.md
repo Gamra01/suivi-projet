@@ -11,7 +11,7 @@ To get started all you have to do is to import files
 - Python 3
 - Pygame - python library
 - SQL
-and also built with Love&Peace
+- tiled - map editor by https://www.mapeditor.org/
 
 # Authors
 
