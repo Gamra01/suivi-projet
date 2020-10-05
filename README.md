@@ -15,7 +15,7 @@ To get started all you have to do is to import files
 
 # Authors
 
-- GAMRA ILYASS - Game dev + gestion project
+- GAMRA ILYASS - Game dev + Project management
 
 # Acknowlodgement
 - Basics
